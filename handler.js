@@ -1,55 +1,39 @@
-const { glob } = require("glob");
-const { promisify } = require("util");
-const { Client, ApplicationCommandType } = require("discord.js");
-const config = require('./config');
-const term = require('terminal-kit').terminal;
+const client = require('../../index');
+const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord.js');
 
-const globPromise = promisify(glob);
+client.on('interactionCreate', async (interaction) => {
+	// Slash Command Handling
+	if (interaction.commandType === ApplicationCommandType.ChatInput) {
+		const cmd = client.slashCommands.get(interaction.commandName);
+		if (!cmd) return interaction.reply({ ephemeral: true, content: 'An error has occurred ' });
 
-/**
- * @param {Client} client
- */
-module.exports = async (client) => {
-	// Commands
-	const commandFiles = await globPromise(`${process.cwd()}/modules/commands/*.js`);
-	commandFiles.map((value) => {
-		const file = require(value);
-		const splitted = value.split("/");
-		const directory = splitted[splitted.length - 2];
+		let args = { options: {} };
 
-		if (file.name) {
-			const properties = { directory, ...file };
-			client.commands.set(file.name, properties);
+		for (let option of interaction.options.data) {
+			if (option.type === ApplicationCommandOptionType.Subcommand) {
+				args.name = option.name;
+				option.options?.map((x) => {
+					args.options[x.name] = x.value;
+				});
+			} else if (option.type === ApplicationCommandOptionType.SubcommandGroup) {
+				option.options?.map((x) => {
+					args.name = x.name;
+					args.options[x.name] = {};
+					x.options?.map((y) => {
+						args.options[x.name][y.name] = y.value;
+					});
+				});
+			} else if (option.value) args = option;
 		}
-	});
+		interaction.member = interaction.guild.members.cache.get(interaction.user.id);
 
-	// Events
-	const eventFiles = await globPromise(`${process.cwd()}/modules/events/*.js`);
-	eventFiles.map((value) => require(value));
+		cmd.run(client, interaction, args);
+	}
 
-	// Slash Commands
-	const slashCommands = await globPromise(
-		`${process.cwd()}/modules/interactions/*.js`
-	);
-
-	const arrayOfSlashCommands = [];
-	slashCommands.map((value) => {
-		const file = require(value);
-		if (!file?.name) return;
-		client.slashCommands.set(file.name, file);
-
-		if ([ApplicationCommandType.Message, ApplicationCommandType.User].includes(file.type)) delete file.description;
-		arrayOfSlashCommands.push(file);
-	});
-	client.on("ready", async () => {
-		// Register for a single guild
-		await client.guilds.cache
-			.get(config.guildId)
-			.commands.set(arrayOfSlashCommands);
-
-		term(`[^G INFO^ ] Successfully registered ${arrayOfSlashCommands.length} slash commands\n`);
-
-		// Register for all the guilds the bot is in
-		// await client.application.commands.set(arrayOfSlashCommands);
-	});
-};
+	// Context Menu Handling
+	if (interaction.commandType === ApplicationCommandType.Message) {
+		await interaction.deferReply({ ephemeral: false });
+		const command = client.slashCommands.get(interaction.commandName);
+		if (command) command.run(client, interaction);
+	}
+});
