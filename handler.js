@@ -1,39 +1,38 @@
-const client = require('../../index');
-const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord.js');
+const { Client, ApplicationCommandType } = require('discord.js');
+const term = require('terminal-kit').terminal;
+const { promisify } = require('util');
+const config = require('./config');
+const { glob } = require('glob');
 
-client.on('interactionCreate', async (interaction) => {
-	// Slash Command Handling
-	if (interaction.commandType === ApplicationCommandType.ChatInput) {
-		const cmd = client.slashCommands.get(interaction.commandName);
-		if (!cmd) return interaction.reply({ ephemeral: true, content: 'An error has occurred ' });
+const globPromise = promisify(glob);
 
-		let args = { options: {} };
+/**
+ * @param {Client} client
+ */
+module.exports = async (client) => {
+	// Events
+	const eventFiles = await globPromise(`${process.cwd()}/modules/events/*.js`);
+	eventFiles.map((value) => require(value));
 
-		for (let option of interaction.options.data) {
-			if (option.type === ApplicationCommandOptionType.Subcommand) {
-				args.name = option.name;
-				option.options?.map((x) => {
-					args.options[x.name] = x.value;
-				});
-			} else if (option.type === ApplicationCommandOptionType.SubcommandGroup) {
-				option.options?.map((x) => {
-					args.name = x.name;
-					args.options[x.name] = {};
-					x.options?.map((y) => {
-						args.options[x.name][y.name] = y.value;
-					});
-				});
-			} else if (option.value) args = option;
-		}
-		interaction.member = interaction.guild.members.cache.get(interaction.user.id);
+	// Slash Commands
+	const slashCommands = await globPromise(`${process.cwd()}/modules/interactions/*.js`);
 
-		cmd.run(client, interaction, args);
-	}
+	const arrayOfSlashCommands = [];
+	slashCommands.map((value) => {
+		const file = require(value);
+		if (!file?.name) return;
+		client.slashCommands.set(file.name, file);
 
-	// Context Menu Handling
-	if (interaction.commandType === ApplicationCommandType.Message) {
-		await interaction.deferReply({ ephemeral: false });
-		const command = client.slashCommands.get(interaction.commandName);
-		if (command) command.run(client, interaction);
-	}
-});
+		if ([ApplicationCommandType.Message, ApplicationCommandType.User].includes(file.type)) delete file.description;
+		arrayOfSlashCommands.push(file);
+	});
+	client.on('ready', async () => {
+		// Register for a single guild
+		await client.guilds.cache.get(config.guildId).commands.set(arrayOfSlashCommands);
+
+		term(`[^G INFO^ ] Successfully registered ${arrayOfSlashCommands.length} slash commands & ${eventFiles.length} events\n`);
+
+		// Register for all the guilds the bot is in
+		// await client.application.commands.set(arrayOfSlashCommands);
+	});
+};
