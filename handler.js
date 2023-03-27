@@ -15,6 +15,8 @@ module.exports = async (client) => {
 	eventFiles.map((event) => {
 		const file = require(event);
 		client.on(file.event, (...args) => file.run(...args));
+		if (file.once) client.once(file.event, (...args) => file.run(...args));
+		else client.on(file.event, (...args) => file.run(...args));
 	});
 
 	// Modals
