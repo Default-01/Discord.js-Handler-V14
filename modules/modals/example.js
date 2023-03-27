@@ -2,7 +2,7 @@ const { ModalSubmitInteraction, ModalSubmitFields } = require('discord.js');
 
 module.exports = {
 	customId: 'testModal',
-	enabled: true,
+	enabled: false,
 
 	/**
 	 * @param {Client} client

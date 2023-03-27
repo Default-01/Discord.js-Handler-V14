@@ -1,9 +1,9 @@
-const { Client, CommandInteraction, CommandInteractionOptionResolver, ComponentType, TextInputStyle } = require('discord.js');
+const { Client, CommandInteraction, CommandInteractionOptionResolver } = require('discord.js');
 
 module.exports = {
 	name: 'ping',
 	description: 'returns websocket ping',
-	enabled: true,
+	enabled: false,
 	options: [],
 
 	/**
