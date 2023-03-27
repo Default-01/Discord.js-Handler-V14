@@ -1,15 +1,18 @@
-const { Message, Client } = require("discord.js");
+const { Client, CommandInteraction, CommandInteractionOptionResolver, ComponentType, TextInputStyle } = require('discord.js');
 
 module.exports = {
-	name: "ping",
-	aliases: ['p'],
+	name: 'ping',
+	description: 'returns websocket ping',
+	enabled: true,
+	options: [],
+
 	/**
-	 *
 	 * @param {Client} client
-	 * @param {Message} message
-	 * @param {String[]} args
+	 * @param {CommandInteraction} interaction
+	 * @param {CommandInteractionOptionResolver} args
 	 */
-	run: async (client, message, args) => {
-		message.channel.send(`${client.ws.ping} ws ping`);
+
+	run: async (client, interaction, args) => {
+		interaction.reply({ ephemeral: false, content: `${client.ws.ping}ms!` });
 	},
 };
