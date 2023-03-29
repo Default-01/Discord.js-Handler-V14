@@ -18,6 +18,7 @@ module.exports = async (client) => {
 		if (file.once) client.once(file.event, (...args) => file.run(...args));
 		else client.on(file.event, (...args) => file.run(...args));
 	});
+	term(`[^B INFO^ ] Loaded ${eventFiles.length} event(s)\n`);
 
 	// Modals
 	const modalFiles = await globPromise(`${process.cwd()}/modules/modals/*.js`);
