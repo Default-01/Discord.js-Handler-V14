@@ -23,7 +23,7 @@ module.exports = {
 
 		// Component Handling
 		if (interaction.type === InteractionType.MessageComponent) {
-			const component = client.components.get(interaction.customId);
+			const component = client.components.find((c) => interaction.customId.startsWith(c.customId));
 			if (component) component.run(client, interaction);
 		}
 
