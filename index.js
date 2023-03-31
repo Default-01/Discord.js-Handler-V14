@@ -1,7 +1,7 @@
-const { Client, Collection } = require('discord.js');
+const { Client, Collection, IntentsBitField } = require('discord.js');
 
 const client = new Client({
-	intents: 32767,
+	intents: [IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMembers],
 });
 module.exports = client;
 
