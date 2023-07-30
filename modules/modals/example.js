@@ -10,7 +10,7 @@ module.exports = {
 	 * @param {ModalSubmitFields} fields
 	 */
 
-	run: async (client, interaction, fields) => {
+	run: async (client, interaction, fields, args) => {
 		// defer modal
 		await interaction.deferUpdate().catch(() => {});
 		// Execute code once modal is submitted

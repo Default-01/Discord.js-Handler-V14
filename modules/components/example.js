@@ -9,7 +9,7 @@ module.exports = {
 	 * @param {MessageComponentInteraction} interaction
 	 */
 
-	run: async (client, interaction) => {
+	run: async (client, interaction, args) => {
 		// defer modal
 		await interaction.deferUpdate().catch(() => {});
 		// Execute code once component is used

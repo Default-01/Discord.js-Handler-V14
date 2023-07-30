@@ -1,5 +1,24 @@
 const { Client, Collection, IntentsBitField } = require('discord.js');
 
+/**
+ * @param {Object} options - The options for the replacer
+ * @description Replaces the string with the options provided
+ * @memberof String.prototype
+ * @example 'Hello {name}'.replacer({ name: 'John Doe' }) // Hello John Doe
+ * @returns {String} The replaced string
+ */
+String.prototype.replacer = function (options) {
+	if (!options) return this;
+
+	let replacedString = this;
+
+	for (const [key, value] of Object.entries(options)) {
+		replacedString = replacedString.replaceAll(`{${key}}`, value);
+	}
+
+	return replacedString;
+};
+
 const client = new Client({
 	intents: [IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMembers],
 });
