@@ -58,6 +58,15 @@ module.exports = async (client) => {
 		arrayOfSlashCommands.push(file);
 	});
 
+	// Intervals
+	const intervalFiles = await globPromise(`${process.cwd()}/modules/intervals/*.js`);
+	intervalFiles.map((value, index) => {
+		const file = require(value);
+		if (!file?.enabled) return intervalFiles.splice(index, 1);
+		setInterval(() => file.run(client), file.interval);
+	});
+	term(`[^B INFO^ ] Loaded ${intervalFiles.length} interval(s)\n`);
+
 	// Register slash commands
 	client.on(Events.ClientReady, async () => {
 		// log client as ready

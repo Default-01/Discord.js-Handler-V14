@@ -15,16 +15,30 @@ module.exports = {
 			cmd.run(client, interaction, interaction.options);
 		}
 
+		// Autocomplete Handling
+		if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
+			const cmd = client.slashCommands.get(interaction.commandName);
+			if (!cmd) return;
+			interaction.member = await interaction.guild.members.fetch(interaction.user.id);
+			cmd.autocomplete(client, interaction, interaction.options);
+		}
+
 		// Modal Handling
 		if (interaction.type === InteractionType.ModalSubmit) {
-			const modal = client.modals.get(interaction.customId);
-			if (modal) modal.run(client, interaction, interaction.fields);
+			const modal = client.modals.find((m) => interaction.customId.startsWith(m.customId));
+			if (modal) {
+				const args = interaction.customId.slice(modal.customId.length + 1).split('_');
+				modal.run(client, interaction, interaction.fields, args);
+			}
 		}
 
 		// Component Handling
 		if (interaction.type === InteractionType.MessageComponent) {
 			const component = client.components.find((c) => interaction.customId.startsWith(c.customId));
-			if (component) component.run(client, interaction);
+			if (component) {
+				const args = interaction.customId.slice(component.customId.length + 1).split('_');
+				component.run(client, interaction, args);
+			}
 		}
 
 		// Context Menu Handling
