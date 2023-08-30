@@ -1,19 +1,52 @@
 {
-	"name": "djs",
+	"name": "dbd-v14-handler",
 	"version": "1.0.0",
-	"description": "",
+	"description": "The best discordjs v14 handler!",
 	"main": "index.js",
 	"scripts": {
-		"start": "node index.js",
-		"test": "nodemon index.js"
+		"start": "cls && node build/index.js",
+		"build": "tsc",
+		"dev": "nodemon --exec \"ts-node\" src/index.ts",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint . --ext .ts",
+		"lint:fix": "eslint . --ext .ts --fix"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "Default-01",
 	"license": "ISC",
 	"dependencies": {
-		"discord.js": "^14.8.0",
+		"discord.js": "^14.13.0",
 		"glob": "^7.1.7",
 		"mongoose": "^6.0.2",
 		"terminal-kit": "^2.4.0"
+	},
+	"devDependencies": {
+		"@types/glob": "^8.1.0",
+		"@typescript-eslint/eslint-plugin": "^6.5.0",
+		"@typescript-eslint/parser": "^6.5.0",
+		"eslint": "^8.48.0",
+		"ts-node": "^10.9.1",
+		"typescript": "^5.2.2"
+	},
+	"eslintConfig": {
+		"env": {
+			"browser": true,
+			"es2021": true
+		},
+		"extends": [
+			"eslint:recommended",
+			"plugin:@typescript-eslint/recommended"
+		],
+		"parser": "@typescript-eslint/parser",
+		"parserOptions": {
+			"ecmaVersion": "latest",
+			"sourceType": "module"
+		},
+		"plugins": [
+			"@typescript-eslint"
+		],
+		"rules": {
+			"@typescript-eslint/no-unused-vars": "off"
+		}
 	}
 }
