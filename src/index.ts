@@ -1,6 +1,6 @@
 import { BotCommand, BotComponent, BotContext, BotEvent, BotModal } from './types/client.types';
 import { Client, Collection, IntentsBitField } from 'discord.js';
-import config from './config.json';
+import config from './config';
 
 // Initialize the client
 const client = new Client({
@@ -16,6 +16,7 @@ client.components = new Collection<string, BotComponent>();
 client.modals = new Collection<string, BotModal>();
 
 export default client;
+import './handlers';
 
 // Catch exceptions and rejections
 const ignore: string[] = [
@@ -44,5 +45,3 @@ process
 
 // login with the client
 client.login(client.config.token);
-
-import './handlers';

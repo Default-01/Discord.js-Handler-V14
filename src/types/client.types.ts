@@ -1,5 +1,20 @@
-import { ApplicationCommandOptionData, ApplicationCommandType, AutocompleteInteraction, ChatInputCommandInteraction, Client, Collection, CommandInteractionOptionResolver, Events, MessageContextMenuCommandInteraction, UserContextMenuCommandInteraction } from 'discord.js';
 import { BotConfig } from './config.types';
+import {
+	Client,
+	Collection,
+	ModalSubmitFields,
+	AutocompleteInteraction,
+	ChatInputCommandInteraction,
+	ApplicationCommandOptionData,
+	CommandInteractionOptionResolver,
+	MessageContextMenuCommandInteraction,
+	UserContextMenuCommandInteraction,
+	MessageComponentInteraction,
+	ModalSubmitInteraction,
+	ComponentType,
+	CacheType,
+	ApplicationCommandType,
+} from 'discord.js';
 
 // The global variables for the bot
 export interface BotCommand {
@@ -7,8 +22,8 @@ export interface BotCommand {
 	name: string;
 	description: string;
 	options: ApplicationCommandOptionData[];
-	autocomplete?: (interaction: AutocompleteInteraction) => void;
-	run: (client: Client, interaction: ChatInputCommandInteraction, args: CommandInteractionOptionResolver) => Promise<void>;
+	autocomplete: (interaction: AutocompleteInteraction) => void;
+	run: (client: Client, interaction: ChatInputCommandInteraction, options: Omit<CommandInteractionOptionResolver<CacheType>, 'getMessage' | 'getFocused'>) => void;
 }
 
 export interface BotEvent {
@@ -16,7 +31,6 @@ export interface BotEvent {
 	name: string;
 	type: string;
 	once: boolean;
-
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	run: (...args: any) => void;
 }
@@ -24,16 +38,28 @@ export interface BotEvent {
 export interface BotContext {
 	enabled: boolean;
 	name: string;
-	type: number;
+	type: ApplicationCommandType;
 	run: (client: Client, interaction: UserContextMenuCommandInteraction | MessageContextMenuCommandInteraction) => void;
 }
 
 export interface BotComponent {
+	enabled: boolean;
 	customId: string;
+	type: ComponentType;
+	run: (client: Client, interaction: MessageComponentInteraction, options: string[]) => void;
 }
 
 export interface BotModal {
+	enabled: boolean;
 	customId: string;
+	run: (client: Client, interaction: ModalSubmitInteraction, fields: ModalSubmitFields) => void;
+}
+
+export interface BotInterval {
+	enabled: boolean;
+	name: string;
+	interval: number;
+	run: (client: Client) => void;
 }
 
 declare module 'discord.js' {
@@ -45,11 +71,4 @@ declare module 'discord.js' {
 		components: Collection<string, BotComponent>;
 		modals: Collection<string, BotModal>;
 	}
-}
-
-export interface ClientCommand {
-	name: string;
-	description: string;
-	options: ApplicationCommandOptionData[];
-	type: number;
 }

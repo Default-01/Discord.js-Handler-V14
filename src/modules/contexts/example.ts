@@ -1,12 +1,15 @@
 import { ApplicationCommandType } from 'discord.js';
-import { BotContext } from '../../types/client.types';
+import { BotContext } from '@/types/client.types';
 
 export const context: BotContext = {
-	enabled: true,
+	enabled: false,
 	name: 'example',
 	type: ApplicationCommandType.User,
 
 	run: async (client, interaction) => {
-		await interaction.reply('Example Context Menu');
+		await interaction.reply({
+			ephemeral: true,
+			content: 'Example Context Menu',
+		});
 	},
 };

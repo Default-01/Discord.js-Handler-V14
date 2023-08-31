@@ -1,4 +1,4 @@
-import { BotCommand } from '../../types/client.types';
+import { BotCommand } from '@/types/client.types';
 
 export const command: BotCommand = {
 	enabled: true,
@@ -7,7 +7,10 @@ export const command: BotCommand = {
 	options: [],
 
 	autocomplete: (interaction) => {},
-	run: async (client, interaction, args) => {
-		await interaction.reply(`Pong! ${client.ws.ping}ms`);
+	run: async (client, interaction, options) => {
+		await interaction.reply({
+			ephemeral: true,
+			content: `Pong! ${client.ws.ping}ms`,
+		});
 	},
 };

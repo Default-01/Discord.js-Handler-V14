@@ -1,9 +1,9 @@
 import { Client, Events } from 'discord.js';
-import { BotEvent } from '../../types/client.types';
+import { BotEvent } from '@/types/client.types';
 
 export const event: BotEvent = {
-	enabled: true,
-	name: 'clientReady',
+	enabled: false,
+	name: 'example',
 	type: Events.ClientReady,
 	once: true,
 
