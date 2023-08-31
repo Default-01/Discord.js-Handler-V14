@@ -1,4 +1,4 @@
-import { BotCommand, BotContext, BotEvent } from './types/client.types';
+import { BotCommand, BotContext, BotEvent, ClientCommand } from './types/client.types';
 import { ApplicationCommandDataResolvable, ApplicationCommandType, Client, Events } from 'discord.js';
 import { promisify } from 'util';
 import { glob } from 'glob';
@@ -11,7 +11,7 @@ const globPromise = promisify(glob);
 	await EventHandler(client);
 	await commandHandler(client);
 	await contextHandler(client);
-	await registerCommands(client, [...client.slashCommands.values(), ...client.contexts.values()]);
+	await registerCommands(client);
 })();
 
 async function EventHandler(client: Client) {
@@ -31,7 +31,6 @@ async function commandHandler(client: Client) {
 	for (const value of commandFiles) {
 		const { command }: { command: BotCommand } = await import(value);
 		if (!command.enabled || !command.name) return;
-		command.type = ApplicationCommandType.ChatInput;
 		client.slashCommands.set(command.name, command);
 	}
 	console.log(`Loaded ${commandFiles.length} commands`);
@@ -48,8 +47,8 @@ async function contextHandler(client: Client) {
 	console.log(`Loaded ${contextFiles.length} contexts`);
 }
 
-async function registerCommands(client: Client, commands: ApplicationCommandDataResolvable[]) {
-	console.log(commands);
-	const guild = client.guilds.cache.get(client.config.guildId);
-	if (guild) await guild?.commands.set(commands);
+async function registerCommands(client: Client) {
+	// Combine all commands and contexts into one array
+	const commands = client.slashCommands.map((command) => command);
+	const contexts = client.contexts.map((context) => context);
 }

@@ -5,7 +5,6 @@ import { BotConfig } from './config.types';
 export interface BotCommand {
 	enabled: boolean;
 	name: string;
-	type?: ApplicationCommandType;
 	description: string;
 	options: ApplicationCommandOptionData[];
 	autocomplete?: (interaction: AutocompleteInteraction) => void;
@@ -25,7 +24,7 @@ export interface BotEvent {
 export interface BotContext {
 	enabled: boolean;
 	name: string;
-	type: ApplicationCommandType;
+	type: number;
 	run: (client: Client, interaction: UserContextMenuCommandInteraction | MessageContextMenuCommandInteraction) => void;
 }
 
@@ -46,4 +45,11 @@ declare module 'discord.js' {
 		components: Collection<string, BotComponent>;
 		modals: Collection<string, BotModal>;
 	}
+}
+
+export interface ClientCommand {
+	name: string;
+	description: string;
+	options: ApplicationCommandOptionData[];
+	type: number;
 }
