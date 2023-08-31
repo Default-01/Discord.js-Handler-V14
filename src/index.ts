@@ -1,6 +1,5 @@
 import { BotCommand, BotComponent, BotContext, BotEvent, BotModal } from './types/client.types';
 import { Client, Collection, IntentsBitField } from 'discord.js';
-import { loadHandlers } from './handlers';
 import config from './config.json';
 
 // Initialize the client
@@ -46,5 +45,4 @@ process
 // login with the client
 client.login(client.config.token);
 
-// Initialize the handlers
-loadHandlers(client);
+import './handlers';

@@ -1,19 +1,20 @@
 import { BotCommand, BotContext, BotEvent } from './types/client.types';
-import { ApplicationCommandType, Client, Events } from 'discord.js';
+import { ApplicationCommandDataResolvable, ApplicationCommandType, Client, Events } from 'discord.js';
 import { promisify } from 'util';
 import { glob } from 'glob';
 import client from './index';
 
 const globPromise = promisify(glob);
 
-export const loadHandlers = async (client: Client) => {
-	await eventHandler(client);
+// run all handlers
+(async () => {
+	await EventHandler(client);
 	await commandHandler(client);
 	await contextHandler(client);
-	registerCommands(client, [...client.slashCommands.values(), ...client.contexts.values()]);
-};
+	await registerCommands(client, [...client.slashCommands.values(), ...client.contexts.values()]);
+})();
 
-const eventHandler = async (client: Client) => {
+async function EventHandler(client: Client) {
 	// Get all event files
 	const eventFiles = await globPromise(`${__dirname}/modules/events/**/*.ts`);
 	eventFiles.map(async (value) => {
@@ -21,9 +22,10 @@ const eventHandler = async (client: Client) => {
 		if (!event.enabled || !event.name) return;
 		event.once ? client.once(event.type, (...args) => event.run(...args)) : client.on(event.type, (...args) => event.run(...args));
 	});
-};
+	console.log(`Loaded ${eventFiles.length} events`);
+}
 
-const commandHandler = async (client: Client) => {
+async function commandHandler(client: Client) {
 	// Get all command files
 	const commandFiles = await globPromise(`${__dirname}/modules/commands/**/*.ts`);
 	for (const value of commandFiles) {
@@ -32,9 +34,10 @@ const commandHandler = async (client: Client) => {
 		command.type = ApplicationCommandType.ChatInput;
 		client.slashCommands.set(command.name, command);
 	}
-};
+	console.log(`Loaded ${commandFiles.length} commands`);
+}
 
-const contextHandler = async (client: Client) => {
+async function contextHandler(client: Client) {
 	// Get all context files
 	const contextFiles = await globPromise(`${__dirname}/modules/contexts/**/*.ts`);
 	for (const value of contextFiles) {
@@ -42,8 +45,11 @@ const contextHandler = async (client: Client) => {
 		if (!context.enabled || !context.name) return;
 		client.contexts.set(context.name, context);
 	}
-};
+	console.log(`Loaded ${contextFiles.length} contexts`);
+}
 
-const registerCommands = async (client: Client, commands: Array<BotCommand | BotContext>) => {
+async function registerCommands(client: Client, commands: ApplicationCommandDataResolvable[]) {
+	console.log(commands);
 	const guild = client.guilds.cache.get(client.config.guildId);
-};
+	if (guild) await guild?.commands.set(commands);
+}
