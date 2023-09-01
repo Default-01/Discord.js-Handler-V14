@@ -1,9 +1,9 @@
-import { BotCommand, BotComponent, BotContext, BotEvent, BotInterval, BotModal } from './types/client.types';
 import { ApplicationCommandDataResolvable, ApplicationCommandType, Client, Events, InteractionType } from 'discord.js';
-import { promisify } from 'util';
-import { glob } from 'glob';
-import client from './index';
+import { BotCommand, BotComponent, BotContext, BotEvent, BotInterval, BotModal } from './types/client.types';
 import { log } from './functions';
+import { promisify } from 'util';
+import client from './index';
+import { glob } from 'glob';
 
 const globPromise = promisify(glob);
 
