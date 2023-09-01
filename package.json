@@ -15,6 +15,7 @@
 	"author": "Default-01",
 	"license": "ISC",
 	"dependencies": {
+		"chalk": "^4.1.2",
 		"discord.js": "^14.13.0",
 		"glob": "^7.1.7",
 		"mongoose": "^6.0.2",

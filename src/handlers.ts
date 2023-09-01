@@ -3,6 +3,7 @@ import { ApplicationCommandDataResolvable, ApplicationCommandType, Client, Event
 import { promisify } from 'util';
 import { glob } from 'glob';
 import client from './index';
+import { log } from './functions';
 
 const globPromise = promisify(glob);
 
@@ -20,7 +21,7 @@ async function EventHandler(client: Client) {
 		if (!event.enabled || !event.name) return;
 		event.once ? client.once(event.type, (...args) => event.run(...args)) : client.on(event.type, (...args) => event.run(...args));
 	});
-	console.log(`Loaded ${client.events.size} events`);
+	if (client.events.size) log('handler', `Loaded ${client.events.size} events`);
 }
 
 async function ComponentHandler(client: Client) {
@@ -31,7 +32,7 @@ async function ComponentHandler(client: Client) {
 		if (!component.enabled || !component.customId) return;
 		client.components.set(component.customId, component);
 	}
-	console.log(`Loaded ${client.components.size} components`);
+	if (client.components.size) log('handler', `Loaded ${client.components.size} components`);
 }
 
 async function CommandHandler(client: Client) {
@@ -42,7 +43,7 @@ async function CommandHandler(client: Client) {
 		if (!command.enabled || !command.name) return;
 		client.slashCommands.set(command.name, command);
 	}
-	console.log(`Loaded ${client.slashCommands.size} commands`);
+	if (client.slashCommands.size) log('handler', `Loaded ${client.slashCommands.size} commands`);
 }
 
 async function ContextHandler(client: Client) {
@@ -52,7 +53,7 @@ async function ContextHandler(client: Client) {
 		if (!context.enabled || !context.name) return;
 		client.contexts.set(context.name, context);
 	}
-	console.log(`Loaded ${client.contexts.size} contexts`);
+	if (client.contexts.size) log('handler', `Loaded ${client.contexts.size} context menus`);
 }
 
 async function ModalHandler(client: Client) {
@@ -62,7 +63,7 @@ async function ModalHandler(client: Client) {
 		if (!modal.enabled || !modal.customId) return;
 		client.modals.set(modal.customId, modal);
 	}
-	console.log(`Loaded ${client.modals.size} modals`);
+	if (client.modals.size) log('handler', `Loaded ${client.modals.size} modals`);
 }
 
 async function IntervalHandler(client: Client) {
@@ -75,7 +76,7 @@ async function IntervalHandler(client: Client) {
 		setInterval(() => interval.run(client), interval.interval);
 		activeIntervals++;
 	}
-	console.log(`Loaded ${activeIntervals} intervals`);
+	if (activeIntervals) log('handler', `Loaded ${activeIntervals} intervals`);
 }
 
 async function RegisterCommands(client: Client) {
@@ -86,7 +87,9 @@ async function RegisterCommands(client: Client) {
 	client.on(Events.ClientReady, async () => {
 		if (client.config.guildId) await client.guilds.cache.get(client.config.guildId)?.commands.set(mergedArray as ApplicationCommandDataResolvable[]);
 		else await client.application?.commands.set(mergedArray as ApplicationCommandDataResolvable[]);
-		console.log(`Registered ${commands.length} commands and ${contexts.length} context menus`);
+		log('handler', `Registered ${commands.length} commands and ${contexts.length} context menus`);
+		log('success', `Bot successfully logged in as ${client.user?.username}`);
+		log('debug', `Debug mode is enabled`);
 	});
 	// Handle interactions
 	client.on(Events.InteractionCreate, async (interaction) => {

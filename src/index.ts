@@ -20,18 +20,18 @@ import './handlers';
 
 // Catch exceptions and rejections
 const ignore: string[] = [
-	// 'Missing Permissions',
-	// 'Unknown Message',
 	// 'Missing Access',
-	// "Cannot read property 'emoji' of undefined",
-	// 'Cannot send messages to this user',
-	// 'AbortError',
-	// 'Unknown Channel',
-	// 'socket hang up',
+	// 'Unknown Message',
+	// 'Missing Permissions',
 	// 'failed, reason: read ECONNRESET',
+	// 'Cannot send messages to this user',
+	// "Cannot read property 'emoji' of undefined",
 	// 'Response: Internal Server Error',
 	// 'InteractionAlreadyReplied',
 	// 'Invalid Webhook Token',
+	// 'Unknown Channel',
+	// 'socket hang up',
+	// 'AbortError',
 ];
 
 process
