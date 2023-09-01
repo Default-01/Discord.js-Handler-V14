@@ -2,7 +2,7 @@
 	"name": "dbd-v14-handler",
 	"version": "1.0.0",
 	"description": "The best discordjs v14 handler!",
-	"main": "index.js",
+	"main": "src/index.js",
 	"scripts": {
 		"start": "cls && node build/index.js",
 		"build": "tsc",
