@@ -111,13 +111,13 @@ async function RegisterCommands(client: Client) {
 			// Handle Message Components
 			case InteractionType.MessageComponent: {
 				const component = client.components.find((component) => interaction.customId.startsWith(component.customId));
-				if (!component || interaction.message.author.id !== client.user?.id) return;
+				if (!component) return;
 				return component.run(client, interaction, interaction.customId.slice(component.customId.length + 1).split('_'));
 			}
 			// Handle Modal Submits
 			case InteractionType.ModalSubmit: {
 				const modal = client.modals.find((modal) => interaction.customId.startsWith(modal.customId));
-				if (!modal || interaction.message?.author.id !== client.user?.id) return;
+				if (!modal) return;
 				return modal.run(client, interaction, interaction.fields);
 			}
 			default: {
