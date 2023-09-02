@@ -21,6 +21,12 @@ export interface BotCommand {
 	enabled: boolean;
 	name: string;
 	description: string;
+	/**
+	 * https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags
+	 */
+	default_member_permissions?: string | number;
+	nsfw?: boolean;
+	dm_permission?: boolean;
 	options: ApplicationCommandOptionData[];
 	autocomplete: (interaction: AutocompleteInteraction) => void;
 	run: (client: Client, interaction: ChatInputCommandInteraction, options: Omit<CommandInteractionOptionResolver<CacheType>, 'getMessage' | 'getFocused'>) => void;
