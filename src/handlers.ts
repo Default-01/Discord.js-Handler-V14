@@ -14,14 +14,16 @@ const globPromise = promisify(glob);
 })();
 
 async function EventHandler(client: Client) {
+	let eventCount = 0;
 	let eventFiles = await globPromise(`${__dirname}/modules/events/**/*`);
 	eventFiles = eventFiles.filter((value) => value.endsWith('.js') || value.endsWith('.ts'));
 	eventFiles.map(async (value) => {
+		eventCount++;
 		const { event }: { event: BotEvent } = await import(value);
 		if (!event.enabled || !event.name) return;
 		event.once ? client.once(event.type, (...args) => event.run(...args)) : client.on(event.type, (...args) => event.run(...args));
 	});
-	if (client.events.size) log('handler', `Loaded ${client.events.size} events`);
+	if (eventCount) log('handler', `Loaded ${eventCount} events`);
 }
 
 async function ComponentHandler(client: Client) {
