@@ -51,7 +51,6 @@ export interface BotContext {
 export interface BotComponent {
 	enabled: boolean;
 	customId: string;
-	type: ComponentType;
 	run: (client: Client, interaction: MessageComponentInteraction, options: string[]) => void;
 }
 
