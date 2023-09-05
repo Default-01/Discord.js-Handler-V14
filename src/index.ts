@@ -34,6 +34,18 @@ const ignore: string[] = [
 	// 'AbortError',
 ];
 
+/**
+ * Alter the string prototype to allow for easier placeholder replacement
+ */
+String.prototype.replacer = function (replaceData) {
+	const keysWithBraces = Object.keys(replaceData).map((key) => `{${key}}`);
+	const regex = new RegExp(keysWithBraces.join('|'), 'g');
+	return this.replace(regex, (match) => {
+		const keyWithoutBraces = match.slice(1, -1); // Remove the curly braces
+		return (replaceData[keyWithoutBraces] || match) as string;
+	});
+};
+
 process
 	.on('unhandledRejection', async (reason: string) => {
 		// log error if not in ignore list
