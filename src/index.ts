@@ -17,6 +17,7 @@ client.modals = new Collection<string, BotModal>();
 
 export default client;
 import './handlers';
+import { ReplaceData } from './types/types';
 
 // Catch exceptions and rejections
 const ignore: string[] = [
@@ -37,12 +38,12 @@ const ignore: string[] = [
 /**
  * Alter the string prototype to allow for easier placeholder replacement
  */
-String.prototype.replacer = function (replaceData) {
+String.prototype.replacer = function (replaceData: ReplaceData) {
 	const keysWithBraces = Object.keys(replaceData).map((key) => `{${key}}`);
 	const regex = new RegExp(keysWithBraces.join('|'), 'g');
 	return this.replace(regex, (match) => {
 		const keyWithoutBraces = match.slice(1, -1); // Remove the curly braces
-		return (replaceData[keyWithoutBraces] || match) as string;
+		return (replaceData[keyWithoutBraces] !== undefined ? replaceData[keyWithoutBraces] : match) as string;
 	});
 };
 
