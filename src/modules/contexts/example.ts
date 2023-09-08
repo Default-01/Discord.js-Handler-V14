@@ -1,5 +1,5 @@
+import { BotContext } from '../../types/client.types';
 import { ApplicationCommandType } from 'discord.js';
-import { BotContext } from '@/types/client.types';
 
 export const context: BotContext = {
 	enabled: false,

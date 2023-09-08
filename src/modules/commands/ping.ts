@@ -1,4 +1,4 @@
-import { BotCommand } from '@/types/client.types';
+import { BotCommand } from '../../types/client.types';
 
 export const command: BotCommand = {
 	enabled: true,

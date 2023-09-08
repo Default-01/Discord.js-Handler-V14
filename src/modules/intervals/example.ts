@@ -1,4 +1,4 @@
-import { BotInterval } from '@/types/client.types';
+import { BotInterval } from '../../types/client.types';
 
 export const interval: BotInterval = {
 	enabled: false,

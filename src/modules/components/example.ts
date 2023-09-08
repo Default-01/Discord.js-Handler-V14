@@ -1,4 +1,4 @@
-import { BotComponent } from '@/types/client.types';
+import { BotComponent } from '../../types/client.types';
 
 export const component: BotComponent = {
 	enabled: false,

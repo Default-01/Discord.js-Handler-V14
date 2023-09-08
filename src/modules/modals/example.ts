@@ -1,4 +1,4 @@
-import { BotModal } from '@/types/client.types';
+import { BotModal } from '../../types/client.types';
 
 export const modal: BotModal = {
 	enabled: false,

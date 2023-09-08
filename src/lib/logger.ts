@@ -1,4 +1,4 @@
-import client from '@/index';
+import client from '../index';
 import chalk from 'chalk';
 
 export default class Logger {

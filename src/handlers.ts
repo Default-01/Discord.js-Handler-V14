@@ -1,7 +1,7 @@
 import { ApplicationCommandDataResolvable, ApplicationCommandType, Client, Events, InteractionType } from 'discord.js';
 import { BotCommand, BotComponent, BotContext, BotEvent, BotInterval, BotModal } from './types/client.types';
-import log from '@lib/logger';
 import { promisify } from 'util';
+import log from './lib/logger';
 import client from './index';
 import { glob } from 'glob';
 
