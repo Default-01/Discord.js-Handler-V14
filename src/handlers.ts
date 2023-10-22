@@ -1,6 +1,7 @@
 import { ApplicationCommandDataResolvable, ApplicationCommandType, Client, Events, InteractionType } from 'discord.js';
 import { BotCommand, BotComponent, BotContext, BotEvent, BotInterval, BotModal } from './types/client.types';
 import { promisify } from 'util';
+import pkg from './package.json';
 import log from './lib/logger';
 import client from './index';
 import { glob } from 'glob';
@@ -90,6 +91,7 @@ async function RegisterCommands(client: Client) {
 		else await client.application?.commands.set(mergedArray as ApplicationCommandDataResolvable[]);
 		log.handler(`Registered ${commands.length} commands and ${contexts.length} context menus`);
 		log.success(`Bot successfully logged in as ${client.user?.username}`);
+		log.info(`${pkg.description} running on version V${pkg.version}`);
 		log.debug(`Debug mode is enabled`);
 	});
 	// Handle interactions

@@ -2,14 +2,14 @@
 	"name": "dbd-v14-handler",
 	"version": "1.0.0",
 	"description": "The best discordjs v14 handler!",
-	"main": "src/index.js",
+	"main": "index.js",
 	"scripts": {
 		"start": "cls && node build/index.js",
 		"build": "tsc",
-		"dev": "nodemon --exec \"ts-node\" src/index.ts",
-		"obfuscate": "javascript-obfuscator ./build --output ./release/nodejs --exclude node_modules --dead-code-injection true --debug-protection true --self-defending true --options-preset high-obfuscation --split-strings true --transform-object-keys true",
-		"compile": "cd ./build && nexe -b -o ../release/app-win -r . --target windows-x64 && nexe -b -o ../release/app-linux -r . --target linux-x64 && nexe -b -o ../release/app-mac -r . --target mac-x64",
-		"release": "rmdir /s /q build && tsc && cd build && copy ..\\package.json . && npm install --production && del /q config.js && cd .. && npm run obfuscate && npm run compile && node release.mjs"
+		"dev": "nodemon --exec \"ts-node\" index.ts",
+		"obfuscate": "javascript-obfuscator ../build --output ../release/nodejs --exclude node_modules --dead-code-injection true --debug-protection true --self-defending true --options-preset high-obfuscation --split-strings true --transform-object-keys true",
+		"compile": "cd ../build && nexe -b -o ../release/app-win -r . --target windows-x64 && nexe -b -o ../release/app-linux -r . --target linux-x64 && nexe -b -o ../release/app-mac -r . --target mac-x64",
+		"release": "rimraf ../build && tsc && cd ../build && npm install --production && del /q config.js && cd ../src && npm run obfuscate && npm run compile && node release.mjs"
 	},
 	"keywords": [],
 	"author": "Default-01",

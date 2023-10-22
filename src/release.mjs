@@ -7,7 +7,7 @@ import chalk from 'chalk';
 
 // get paths
 const fileName = fileURLToPath(import.meta.url);
-const dirName = dirname(fileName);
+const dirName = join(dirname(fileName), '..');
 const releasePath = join(dirName, 'release', 'nodejs');
 
 // generate the release package.json file
