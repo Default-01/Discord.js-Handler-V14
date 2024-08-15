@@ -1,11 +1,10 @@
-import { BotCommand } from '../../types/client.types';
+import type { BotCommand } from '../../types/bot.types';
 
-export const command: BotCommand = {
+export default {
 	enabled: true,
 	name: 'ping',
 	description: 'Returns the bots ping',
 	options: [],
-
 	autocomplete: (interaction) => {},
 	run: async (client, interaction, options) => {
 		await interaction.reply({
@@ -13,4 +12,4 @@ export const command: BotCommand = {
 			content: `Pong! ${client.ws.ping}ms`,
 		});
 	},
-};
+} satisfies BotCommand;

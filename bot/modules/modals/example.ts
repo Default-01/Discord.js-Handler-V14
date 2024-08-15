@@ -1,7 +1,7 @@
-import { BotModal } from '../../types/client.types';
+import type { BotModal } from '../../types/bot.types';
 
-export const modal: BotModal = {
-	enabled: false,
+export default {
+	enabled: true,
 	customId: 'example',
 
 	run: async (client, interaction, fields) => {
@@ -9,4 +9,4 @@ export const modal: BotModal = {
 			content: 'Example Modal',
 		});
 	},
-};
+} satisfies BotModal;

@@ -1,5 +1,6 @@
-import { BotConfig } from './config.types';
-import {
+import type { Knex } from 'knex';
+import type { BotConfig } from '../schemas/config';
+import type {
 	Client,
 	Collection,
 	ModalSubmitFields,
@@ -11,7 +12,6 @@ import {
 	UserContextMenuCommandInteraction,
 	MessageComponentInteraction,
 	ModalSubmitInteraction,
-	ComponentType,
 	CacheType,
 	ApplicationCommandType,
 } from 'discord.js';
@@ -37,7 +37,7 @@ export interface BotEvent {
 	name: string;
 	type: string;
 	once: boolean;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	run: (...args: any) => void;
 }
 
@@ -70,10 +70,13 @@ export interface BotInterval {
 declare module 'discord.js' {
 	export interface Client {
 		config: BotConfig;
-		slashCommands: Collection<string, BotCommand>;
-		events: Collection<string, BotEvent>;
-		contexts: Collection<string, BotContext>;
+		commands: Collection<string, BotCommand>;
 		components: Collection<string, BotComponent>;
+		contexts: Collection<string, BotContext>;
+		events: Collection<string, BotEvent>;
+		intervals: Collection<string, BotInterval>;
 		modals: Collection<string, BotModal>;
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		db: Knex<any, unknown[]>;
 	}
 }
