@@ -23,7 +23,7 @@ if [ ! -f package.json ]; then
   "name": "discord-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "./bot/bot.js",
+  "main": "./src/bot.js",
   "dependencies": {
     "@defaultsbotdevelopment/dbd-tools": "^2.3.3",
 		"better-sqlite3": "^11.1.2",
@@ -37,4 +37,4 @@ EOF
 fi
 
 # Run npm install and start the application
-npm install && node ./bot/bot.js
+npm install && node ./src/bot.js

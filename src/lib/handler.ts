@@ -69,7 +69,7 @@ export default async function handler() {
 }
 
 const loadEvents = async () => {
-	const eventFiles = await readdir('./bot/modules/events');
+	const eventFiles = await readdir('./src/modules/events');
 	// loop through all the files in the events folder
 	for (const file of eventFiles) {
 		// require the event file
@@ -87,7 +87,7 @@ const loadEvents = async () => {
 };
 
 const loadCommands = async () => {
-	const commandFiles = await readdir('./bot/modules/commands');
+	const commandFiles = await readdir('./src/modules/commands');
 	// loop through all the files in the commands folder
 	for (const file of commandFiles) {
 		// require the command file
@@ -102,7 +102,7 @@ const loadCommands = async () => {
 };
 
 const loadComponents = async () => {
-	const componentFiles = await readdir('./bot/modules/components');
+	const componentFiles = await readdir('./src/modules/components');
 	// loop through all the files in the components folder
 	for (const file of componentFiles) {
 		// require the component file
@@ -117,7 +117,7 @@ const loadComponents = async () => {
 };
 
 const loadContexts = async () => {
-	const contextFiles = await readdir('./bot/modules/contexts');
+	const contextFiles = await readdir('./src/modules/contexts');
 	// loop through all the files in the contexts folder
 	for (const file of contextFiles) {
 		// require the context file
@@ -132,7 +132,7 @@ const loadContexts = async () => {
 };
 
 const loadModals = async () => {
-	const modalFiles = await readdir('./bot/modules/modals');
+	const modalFiles = await readdir('./src/modules/modals');
 	// loop through all the files in the modals folder
 	for (const file of modalFiles) {
 		// require the modal file
@@ -147,7 +147,7 @@ const loadModals = async () => {
 };
 
 const loadIntervals = async () => {
-	const intervalFiles = await readdir('./bot/modules/intervals');
+	const intervalFiles = await readdir('./src/modules/intervals');
 	// loop through all the files in the intervals folder
 	for (const file of intervalFiles) {
 		// require the interval file

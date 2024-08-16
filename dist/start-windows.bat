@@ -23,7 +23,7 @@ if not exist package.json (
   echo   "name": "discord-bot", >> package.json
   echo   "version": "1.0.0", >> package.json
   echo   "description": "", >> package.json
-  echo   "main": "./bot/bot.js", >> package.json
+  echo   "main": "./src/bot.js", >> package.json
   echo   "dependencies": { >> package.json
   echo     "@defaultsbotdevelopment/dbd-tools": "^2.3.3", >> package.json
   echo     "better-sqlite3": "^11.1.2", >> package.json
@@ -36,4 +36,4 @@ if not exist package.json (
 )
 
 rem Start a new command window to run npm install and the index.js and keep it alive
-start cmd /k "npm install && cls && node ./bot/bot.js"
+start cmd /k "npm install && cls && node ./src/bot.js"
