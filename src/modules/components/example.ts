@@ -1,8 +1,8 @@
-import { BotComponent } from '../../types/client.types';
+import type { BotComponent } from '../../types/bot.types';
 
-export const component: BotComponent = {
-	enabled: false,
-	customId: 'click_me',
+export default {
+	enabled: true,
+	customId: 'example_component',
 
 	run: async (client, interaction, options) => {
 		interaction.reply({
@@ -10,4 +10,4 @@ export const component: BotComponent = {
 			content: 'Example Component',
 		});
 	},
-};
+} satisfies BotComponent;

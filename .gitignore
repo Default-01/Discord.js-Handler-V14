@@ -1,5 +1,5 @@
-node_modules
+/node_modules/
+/config.json
 package-lock.json
+/dist/bot
 /build/
-/src/config.js*
-```

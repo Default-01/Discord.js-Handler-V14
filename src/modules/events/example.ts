@@ -1,8 +1,8 @@
-import { BotEvent } from '../../types/client.types';
-import { Client, Events } from 'discord.js';
+import { type Client, Events } from 'discord.js';
+import type { BotEvent } from '../../types/bot.types';
 
-export const event: BotEvent = {
-	enabled: false,
+export default {
+	enabled: true,
 	name: 'example',
 	type: Events.ClientReady,
 	once: true,
@@ -10,4 +10,4 @@ export const event: BotEvent = {
 	run: (client: Client) => {
 		console.log(`Logged in as ${client.user?.username}!`);
 	},
-};
+} satisfies BotEvent;

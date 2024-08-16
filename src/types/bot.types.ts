@@ -1,7 +1,5 @@
-import { BotConfig } from './config.types';
-import {
+import type {
 	Client,
-	Collection,
 	ModalSubmitFields,
 	AutocompleteInteraction,
 	ChatInputCommandInteraction,
@@ -11,7 +9,6 @@ import {
 	UserContextMenuCommandInteraction,
 	MessageComponentInteraction,
 	ModalSubmitInteraction,
-	ComponentType,
 	CacheType,
 	ApplicationCommandType,
 } from 'discord.js';
@@ -37,7 +34,7 @@ export interface BotEvent {
 	name: string;
 	type: string;
 	once: boolean;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	run: (...args: any) => void;
 }
 
@@ -65,15 +62,4 @@ export interface BotInterval {
 	name: string;
 	interval: number;
 	run: (client: Client) => void;
-}
-
-declare module 'discord.js' {
-	export interface Client {
-		config: BotConfig;
-		slashCommands: Collection<string, BotCommand>;
-		events: Collection<string, BotEvent>;
-		contexts: Collection<string, BotContext>;
-		components: Collection<string, BotComponent>;
-		modals: Collection<string, BotModal>;
-	}
 }

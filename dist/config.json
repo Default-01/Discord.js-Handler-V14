@@ -1,0 +1,10 @@
+{
+	"bot_token": "",
+	"guild_id": "",
+	"bot_presence": {
+		"username": "",
+		"status": "dnd",
+		"type": "Watching",
+		"name": "testing"
+	}
+}

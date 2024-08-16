@@ -1,8 +1,8 @@
-import { BotContext } from '../../types/client.types';
 import { ApplicationCommandType } from 'discord.js';
+import type { BotContext } from '../../types/bot.types';
 
-export const context: BotContext = {
-	enabled: false,
+export default {
+	enabled: true,
 	name: 'example',
 	type: ApplicationCommandType.User,
 
@@ -12,4 +12,4 @@ export const context: BotContext = {
 			content: 'Example Context Menu',
 		});
 	},
-};
+} satisfies BotContext;

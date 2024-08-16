@@ -1,11 +1,11 @@
-import { BotInterval } from '../../types/client.types';
+import type { BotInterval } from '../../types/bot.types';
 
-export const interval: BotInterval = {
-	enabled: false,
+export default {
+	enabled: true,
 	name: 'example',
-	interval: 1000,
+	interval: 10000,
 
 	run: async (client) => {
 		console.log('Example Interval');
 	},
-};
+} satisfies BotInterval;

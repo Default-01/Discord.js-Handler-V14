@@ -1,0 +1,46 @@
+{
+	"name": "discord.js-handler-v14",
+	"version": "1.0.0",
+	"description": "",
+	"main": "./src/bot.js",
+	"directories": {
+		"lib": "lib"
+	},
+	"scripts": {
+		"start:dev": "nodemon --exec \"ts-node\" ./src/bot.ts",
+		"start:prod": "node build/bot.js",
+		"build": "tsc",
+		"obfuscate": "javascript-obfuscator ./build --output ./dist --exclude node_modules --dead-code-injection true --debug-protection true --self-defending true --options-preset high-obfuscation --split-strings true --transform-object-keys true",
+		"release": "npm run build && npm run obfuscate",
+		"biome-lint": "npx @biomejs/biome lint ./",
+		"biome-lint-apply": "npx @biomejs/biome lint ./ --write",
+		"biome-format": "npx @biomejs/biome format ./",
+		"biome-format-apply": "npx @biomejs/biome format ./ --write",
+		"biome-check": "npx @biomejs/biome check ./",
+		"biome-check-apply": "npx @biomejs/biome check ./ --write"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Default-01/Discord.js-Handler-V14.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Default-01/Discord.js-Handler-V14/issues"
+	},
+	"homepage": "https://github.com/Default-01/Discord.js-Handler-V14#readme",
+	"devDependencies": {
+		"@biomejs/biome": "^1.8.3",
+		"@types/better-sqlite3": "^7.6.11",
+		"@types/node": "^22.3.0"
+	},
+	"dependencies": {
+		"@defaultsbotdevelopment/dbd-tools": "^2.3.3",
+		"better-sqlite3": "^11.1.2",
+		"chalk": "^4.1.2",
+		"discord.js": "^14.15.3",
+		"knex": "^3.1.0",
+		"zod": "^3.23.8"
+	}
+}
