@@ -1,8 +1,5 @@
-import type { Knex } from 'knex';
-import type { BotConfig } from '../schemas/config';
 import type {
 	Client,
-	Collection,
 	ModalSubmitFields,
 	AutocompleteInteraction,
 	ChatInputCommandInteraction,
@@ -65,18 +62,4 @@ export interface BotInterval {
 	name: string;
 	interval: number;
 	run: (client: Client) => void;
-}
-
-declare module 'discord.js' {
-	export interface Client {
-		config: BotConfig;
-		commands: Collection<string, BotCommand>;
-		components: Collection<string, BotComponent>;
-		contexts: Collection<string, BotContext>;
-		events: Collection<string, BotEvent>;
-		intervals: Collection<string, BotInterval>;
-		modals: Collection<string, BotModal>;
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		db: Knex<any, unknown[]>;
-	}
 }
