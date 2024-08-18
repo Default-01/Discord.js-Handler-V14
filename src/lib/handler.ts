@@ -5,13 +5,13 @@ import { Logger } from './utils';
 import bot from '../bot';
 
 export default async function handler() {
+	// load modules at the same time
+	await Promise.all([loadEvents(), loadCommands(), loadComponents(), loadContexts(), loadModals(), loadIntervals()]);
 	// login to the bot client
 	await bot.login(bot.config.bot_token).catch((err) => {
 		Logger({ level: 'ERROR', module: 'HANDLER', message: err.message });
 		process.exit(1);
 	});
-	// load modules at the same time
-	await Promise.all([loadEvents(), loadCommands(), loadComponents(), loadContexts(), loadModals(), loadIntervals()]);
 	// on bot ready
 	bot.once(Events.ClientReady, async () => {
 		Logger({ level: 'SUCCESS', message: `Bot logged in as ${bot.user?.username}` });
@@ -77,8 +77,8 @@ const loadEvents = async () => {
 		const { default: event } = eventfile as { default: BotEvent };
 		if (!event || !event.enabled) continue;
 		// if the event is enabled, add it to the client
-		if (event.once) bot.once(event.name, (...args) => event.run(bot, ...args));
-		bot.on(event.name, (...args) => event.run(bot, ...args));
+		if (event.once) bot.once(event.type, event.run);
+		else bot.on(event.type, event.run);
 		// add the event to the client
 		bot.events.set(event.name, event);
 	}
