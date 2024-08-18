@@ -154,6 +154,10 @@ const loadIntervals = async () => {
 		const intervalfile = await import(`../modules/intervals/${file}`);
 		const { default: interval } = intervalfile as { default: BotInterval };
 		if (!interval || !interval.enabled) continue;
+
+		if (interval.immediate && !interval.once) interval.run(bot);
+		if (interval.once) interval.run(bot);
+		else setInterval(interval.run, interval.interval, bot);
 		// add the interval to the client
 		bot.intervals.set(interval.name, interval);
 	}

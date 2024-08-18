@@ -61,5 +61,7 @@ export interface BotInterval {
 	enabled: boolean;
 	name: string;
 	interval: number;
+	immediate?: boolean;
+	once?: boolean;
 	run: (client: Client) => void;
 }
